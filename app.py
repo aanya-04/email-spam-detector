@@ -71,10 +71,19 @@ from sklearn.model_selection import train_test_split
 from nltk.data import find
 
 # Ensure NLTK resources are available
+import nltk
+import ssl
+
 try:
-    find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('punkt')
+nltk.download('stopwords')
+
 
 try:
     find('corpora/stopwords')
